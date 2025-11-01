@@ -27,7 +27,6 @@ function SafePercent(v) {
 function buildRatesFromData(data = {}) {
   const toNum = x => (x == null ? null : (isNaN(Number(x)) ? null : Number(x)));
   return {
-    // Exponent (full, added non-PT)
     exponent_xSOL_1: toNum(data.exponent_xSOL_1),
     exponent_PT_xSOL_1: toNum(data.exponent_PT_xSOL_1),
     exponent_xSOL_2: toNum(data.exponent_xSOL_2),
@@ -38,7 +37,6 @@ function buildRatesFromData(data = {}) {
     exponent_hylosol: toNum(data.exponent_hylosol),
     exponent_sHYUSD: toNum(data.exponent_sHYUSD),
 
-    // Rate-X
     ratex_xSOL: toNum(data.ratex_xSOL),
     ratex_PT_xSOL: toNum(data.ratex_PT_xSOL),
     ratex_hyUSD: toNum(data.ratex_hyUSD),
@@ -60,7 +58,7 @@ function buildRatesFromData(data = {}) {
 export default function App() {
   const [rates, setRates] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [calcLoading, setCalcLoading] = useState(false);  // ← Это state здесь
+  const [calcLoading, setCalcLoading] = useState(false);
   const [principal, setPrincipal] = useState(1000);
   const [days, setDays] = useState(30);
   const [mode, setMode] = useState('APY');
@@ -69,7 +67,6 @@ export default function App() {
 
   const [isMd, setIsMd] = useState(window.innerWidth >= 768);
 
-  // Set axios baseURL
   useEffect(() => {
     axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
   }, []);
@@ -99,7 +96,6 @@ export default function App() {
     }
   }
 
-  // Auto-refresh every minute
   useEffect(() => {
     fetchApy();
     const interval = setInterval(() => fetchApy(false), 900000);
@@ -295,9 +291,9 @@ export default function App() {
 }
 
 /* -------------------------------------------------
-   APY CARD (обновлено: добавил calcLoading prop)
+   APY CARD (чистая версия)
    ------------------------------------------------- */
-const APYCard = ({ title, apy, label, icon, link, color, calcLabel, rate, onCalc, calcLoading }) => {  // ← Добавил calcLoading prop
+const APYCard = ({ title, apy, label, icon, link, color, calcLabel, rate, onCalc, calcLoading }) => {
   const isRateX = title.startsWith('Rate-X');
   const viewText = isRateX ? 'Rate-X' : 'Exponent';
 
@@ -356,7 +352,7 @@ const APYCard = ({ title, apy, label, icon, link, color, calcLabel, rate, onCalc
 
       <button
         onClick={() => onCalc(rate)}
-        disabled={rate === null || calcLoading}  // ← Теперь calcLoading доступен
+        disabled={rate === null || calcLoading}
         aria-label={`Calculate for ${calcLabel}`}
         style={{
           width: '100%',
@@ -377,7 +373,7 @@ const APYCard = ({ title, apy, label, icon, link, color, calcLabel, rate, onCalc
           gap: 6,
         }}
       >
-        {calcLoading ? 'Calculating...' : `Calculate ${calcLabel}`}  // ← Теперь calcLoading доступен
+        {calcLoading ? 'Calculating...' : `Calculate ${calcLabel}`}
       </button>
 
       <a
@@ -403,7 +399,7 @@ const APYCard = ({ title, apy, label, icon, link, color, calcLabel, rate, onCalc
 };
 
 /* -------------------------------------------------
-   INPUT FIELDS (обновлено: disabled prop используется)
+   INPUT FIELDS
    ------------------------------------------------- */
 const refreshBtnStyle = (force) => ({
   background: force ? 'linear-gradient(45deg, #a855f7, #7e3bc7)' : 'rgba(0, 255, 136, 0.2)',
