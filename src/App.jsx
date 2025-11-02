@@ -192,7 +192,7 @@ export default function App() {
           maxWidth: 800,
         }}>
           <p style={{ margin: '6px 0' }}>
-            <strong>Note:</strong> Data is updated every 5 minutes. <strong>May slightly differ from real-time values on the site.</strong>
+            <strong>Note:</strong> Data is updated every 15 minutes. <strong>May slightly differ from real-time values on the site.</strong>
           </p>
           <p style={{ margin: '6px 0' }}>
             If a rate shows <code style={{ color: '#ff6b6b' }}>—</code> — click <strong>Force Refresh</strong> or reload the page.
