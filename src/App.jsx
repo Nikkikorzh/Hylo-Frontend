@@ -27,6 +27,7 @@ function SafePercent(v) {
 function buildRatesFromData(data = {}) {
   const toNum = x => (x == null ? null : (isNaN(Number(x)) ? null : Number(x)));
   return {
+    // Exponent
     exponent_xSOL_1: toNum(data.exponent_xSOL_1),
     exponent_PT_xSOL_1: toNum(data.exponent_PT_xSOL_1),
     exponent_xSOL_2: toNum(data.exponent_xSOL_2),
@@ -37,6 +38,7 @@ function buildRatesFromData(data = {}) {
     exponent_hylosol: toNum(data.exponent_hylosol),
     exponent_sHYUSD: toNum(data.exponent_sHYUSD),
 
+    // RateX
     ratex_xSOL: toNum(data.ratex_xSOL),
     ratex_PT_xSOL: toNum(data.ratex_PT_xSOL),
     ratex_hyUSD: toNum(data.ratex_hyUSD),
@@ -47,6 +49,14 @@ function buildRatesFromData(data = {}) {
     ratex_PT_hylosol: toNum(data.ratex_PT_hylosol),
     ratex_sHYUSD: toNum(data.ratex_sHYUSD),
     ratex_PT_sHYUSD: toNum(data.ratex_PT_sHYUSD),
+
+    // Loopscale
+    loopscale_hyusd_one: toNum(data.loopscale_hyusd_one),
+    loopscale_xsOL_one: toNum(data.loopscale_xsOL_one),
+    loopscale_hyusd_15dec25: toNum(data.loopscale_hyusd_15dec25),
+    loopscale_shYUSD_18nov25: toNum(data.loopscale_shYUSD_18nov25),
+    loopscale_shYUSD_hyusd: toNum(data.loopscale_shYUSD_hyusd),
+    loopscale_shYUSD_2601: toNum(data.loopscale_shYUSD_2601),
 
     fetched_at: data.fetched_at ?? null,
   };
@@ -276,7 +286,7 @@ export default function App() {
               padding: 14,
               fontFamily: 'monospace',
               fontSize: '1rem',
-              textAlign: 'center'
+              text-align: 'center'
             }}>
               <div style={{ color: '#00ff88', fontWeight: 600, marginBottom: 4 }}>Result</div>
               <div>Principal: <strong>${formatNum(result.principal)}</strong></div>
@@ -467,7 +477,7 @@ const SelectField = ({ label, value, onChange, options, disabled = false }) => (
         color: '#ffffff',
         fontSize: '0.95rem',
         outline: 'none',
-        boxSizing: 'border-box'
+        box-sizing: 'border-box'
       }}
     >
       {options.map(opt => (
