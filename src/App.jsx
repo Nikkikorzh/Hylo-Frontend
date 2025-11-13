@@ -137,47 +137,26 @@ export default function App() {
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
 
         {/* HEADER */}
-        {/* HEADER */}
-<header style={{ textAlign: 'center', marginBottom: 32 }}>
-  <div style={{
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 12,
-    marginBottom: 8,
-  }}>
-    <img
-      src="/images/Hylo.svg"
-      alt="Hylo"
-      onError={(e) => { e.target.style.display = 'none'; }}
-      style={{
-        width: isMd ? 48 : 40,
-        height: isMd ? 48 : 40,
-        borderRadius: '50%',
-        boxShadow: '0 0 20px rgba(168, 85, 247, 0.4)',
-        objectFit: 'contain',
-      }}
-    />
-    <h1 style={{
-      fontFamily: 'ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, monospace',
-      fontSize: isMd ? '2.25rem' : '1.875rem',
-      fontWeight: 700,
-      letterSpacing: '-0.025em',
-      color: '#1a1a2e',
-      background: 'linear-gradient(90deg, #00ff88, #a855f7)',
-      backgroundClip: 'text',
-      WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: 'transparent',
-      margin: 0,
-      lineHeight: 1.2,
-    }}>
-      Hylo APY Simulator
-    </h1>
-  </div>
-  <p style={{ color: '#a0a0d0', fontSize: '1.1rem', margin: 0 }}>
-    Live Fixed APY for PT-xSOL, PT-hyUSD, hyloSOL+, hyloSOL & sHYUSD
-  </p>
-</header>
+        <header style={{ textAlign: 'center', marginBottom: 32 }}>
+          <h1 style={{
+            fontFamily: 'ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, monospace',
+            fontSize: isMd ? '2.25rem' : '1.875rem',
+            fontWeight: 700,
+            letterSpacing: '-0.025em',
+            color: '#1a1a2e',
+            background: 'linear-gradient(90deg, #00ff88, #a855f7)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            margin: 0,
+            lineHeight: 1.2,
+          }}>
+            Hylo Simulator
+          </h1>
+          <p style={{ color: '#a0a0d0', fontSize: '1.1rem', marginTop: 8 }}>
+            Live Fixed APY for PT-xSOL, PT-hyUSD, hyloSOL+, hyloSOL & sHYUSD
+          </p>
+        </header>
 
         {/* NOTE */}
         <div style={{
@@ -192,7 +171,7 @@ export default function App() {
           maxWidth: 800,
         }}>
           <p style={{ margin: '6px 0' }}>
-            <strong>Note:</strong> Data is updated every 15 minutes. <strong>May slightly differ from real-time values on the site.</strong>
+            <strong>Note:</strong> Data is updated every minute. <strong>May slightly differ from real-time values on the site.</strong>
           </p>
           <p style={{ margin: '6px 0' }}>
             If a rate shows <code style={{ color: '#ff6b6b' }}>—</code> — click <strong>Force Refresh</strong> or reload the page.
@@ -312,7 +291,7 @@ export default function App() {
 }
 
 /* -------------------------------------------------
-   APY CARD (чистая версия)
+   APY CARD
    ------------------------------------------------- */
 const APYCard = ({ title, apy, label, icon, link, color, calcLabel, rate, onCalc, calcLoading }) => {
   const isRateX = title.startsWith('Rate-X');
@@ -374,7 +353,6 @@ const APYCard = ({ title, apy, label, icon, link, color, calcLabel, rate, onCalc
       <button
         onClick={() => onCalc(rate)}
         disabled={rate === null || calcLoading}
-        aria-label={`Calculate for ${calcLabel}`}
         style={{
           width: '100%',
           padding: '12px',
