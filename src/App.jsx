@@ -27,6 +27,7 @@ function SafePercent(v) {
 function buildRatesFromData(data = {}) {
   const toNum = x => (x == null ? null : (isNaN(Number(x)) ? null : Number(x)));
   return {
+    // Exponent
     exponent_xSOL_1: toNum(data.exponent_xSOL_1),
     exponent_PT_xSOL_1: toNum(data.exponent_PT_xSOL_1),
     exponent_xSOL_2: toNum(data.exponent_xSOL_2),
@@ -37,6 +38,7 @@ function buildRatesFromData(data = {}) {
     exponent_hylosol: toNum(data.exponent_hylosol),
     exponent_sHYUSD: toNum(data.exponent_sHYUSD),
 
+    // RateX
     ratex_xSOL: toNum(data.ratex_xSOL),
     ratex_PT_xSOL: toNum(data.ratex_PT_xSOL),
     ratex_hyUSD: toNum(data.ratex_hyUSD),
@@ -47,6 +49,14 @@ function buildRatesFromData(data = {}) {
     ratex_PT_hylosol: toNum(data.ratex_PT_hylosol),
     ratex_sHYUSD: toNum(data.ratex_sHYUSD),
     ratex_PT_sHYUSD: toNum(data.ratex_PT_sHYUSD),
+
+    // Loopscale — только APY
+    loopscale_hyusd_one: toNum(data.loopscale_hyusd_one),
+    loopscale_xsOL_one: toNum(data.loopscale_xsOL_one),
+    loopscale_hyusd_15dec25: toNum(data.loopscale_hyusd_15dec25),
+    loopscale_shYUSD_18nov25: toNum(data.loopscale_shYUSD_18nov25),
+    loopscale_shYUSD_hyusd: toNum(data.loopscale_shYUSD_hyusd),
+    loopscale_shYUSD_2601: toNum(data.loopscale_shYUSD_2601),
 
     fetched_at: data.fetched_at ?? null,
   };
@@ -98,7 +108,7 @@ export default function App() {
 
   useEffect(() => {
     fetchApy();
-    const interval = setInterval(() => fetchApy(false), 900000);
+    const interval = setInterval(() => fetchApy(false), 900000); // 15 минут
     return () => clearInterval(interval);
   }, []);
 
@@ -165,7 +175,7 @@ export default function App() {
           padding: '14px 20px',
           background: 'rgba(255, 255, 255, 0.05)',
           borderRadius: 12,
-          border: '1px solid rgba(255, 255, 255, 0.1)',
+          border: '1px solid rgba(255, 255, 255, 188)',
           fontSize: '0.9rem',
           color: '#a0a0d0',
           maxWidth: 800,
@@ -202,31 +212,35 @@ export default function App() {
               gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
               gap: 20
             }}>
-              {/* xSOL — PURPLE */}
+              {/* === EXPONENT & RATEX (как было) === */}
               <APYCard title="Pool 1 (xsol-26Nov25-1)" apy={rates.exponent_PT_xSOL_1} label="PT-xSOL Fixed APY" icon={ICONS.xsol} link="https://www.exponent.finance/liquidity/xsol-26Nov25-1" color="purple" calcLabel="Pool 1: PT-xSOL" rate={rates.exponent_PT_xSOL_1} onCalc={compute} calcLoading={calcLoading} />
               <APYCard title="Pool 2 (xsol-26Nov25)" apy={rates.exponent_PT_xSOL_2} label="PT-xSOL Fixed APY" icon={ICONS.xsol} link="https://www.exponent.finance/liquidity/xsol-26Nov25" color="purple" calcLabel="Pool 2: PT-xSOL" rate={rates.exponent_PT_xSOL_2} onCalc={compute} calcLoading={calcLoading} />
               <APYCard title="Rate-X xSOL" apy={rates.ratex_xSOL} label="Variable APY" icon={ICONS.xsol} link="https://app.rate-x.io/points?symbol=xSOL-2511" color="purple" calcLabel="Rate-X: xSOL" rate={rates.ratex_xSOL} onCalc={compute} calcLoading={calcLoading} />
               <APYCard title="Rate-X PT-xSOL" apy={rates.ratex_PT_xSOL} label="Fixed APY" icon={ICONS.pt} link="https://app.rate-x.io/points?symbol=xSOL-2511" color="purple" calcLabel="Rate-X: PT-xSOL" rate={rates.ratex_PT_xSOL} onCalc={compute} calcLoading={calcLoading} />
 
-              {/* hyUSD — GREEN */}
               <APYCard title="hyUSD (15Dec25)" apy={rates.exponent_PT_hyUSD} label="PT-hyUSD Fixed APY" icon={ICONS.hyusd} link="https://www.exponent.finance/liquidity/hyusd-15Dec25" color="green" calcLabel="hyUSD: PT-hyUSD" rate={rates.exponent_PT_hyUSD} onCalc={compute} calcLoading={calcLoading} />
               <APYCard title="Rate-X hyUSD" apy={rates.ratex_hyUSD} label="Variable APY" icon={ICONS.hyusd} link="https://app.rate-x.io/points?symbol=hyUSD-2601" color="green" calcLabel="Rate-X: hyUSD" rate={rates.ratex_hyUSD} onCalc={compute} calcLoading={calcLoading} />
               <APYCard title="Rate-X PT-hyUSD" apy={rates.ratex_PT_hyUSD} label="Fixed APY" icon={ICONS.hyusd} link="https://app.rate-x.io/points?symbol=hyUSD-2601" color="green" calcLabel="Rate-X: PT-hyUSD" rate={rates.ratex_PT_hyUSD} onCalc={compute} calcLoading={calcLoading} />
 
-              {/* sHYUSD — TEAL */}
               <APYCard title="sHYUSD (18Nov25)" apy={rates.exponent_sHYUSD} label="sHYUSD Fixed APY" icon={ICONS.shyusd} link="https://www.exponent.finance/liquidity/shyusd-18Nov25" color="teal" calcLabel="sHYUSD" rate={rates.exponent_sHYUSD} onCalc={compute} calcLoading={calcLoading} />
               <APYCard title="Rate-X sHYUSD" apy={rates.ratex_sHYUSD} label="Variable APY" icon={ICONS.shyusd} link="https://app.rate-x.io/points?symbol=sHYUSD-2601" color="teal" calcLabel="Rate-X: sHYUSD" rate={rates.ratex_sHYUSD} onCalc={compute} calcLoading={calcLoading} />
               <APYCard title="Rate-X PT-sHYUSD" apy={rates.ratex_PT_sHYUSD} label="Fixed APY" icon={ICONS.shyusd} link="https://app.rate-x.io/points?symbol=sHYUSD-2601" color="teal" calcLabel="Rate-X: PT-sHYUSD" rate={rates.ratex_PT_sHYUSD} onCalc={compute} calcLoading={calcLoading} />
 
-              {/* hyloSOL+ — ORANGE */}
               <APYCard title="hyloSOL+ (15Dec25)" apy={rates.exponent_hylosolplus} label="PT-hyloSOL+ Fixed APY" icon={ICONS.hylosolplus} link="https://www.exponent.finance/liquidity/hylosolplus-15Dec25" color="orange" calcLabel="hyloSOL+: PT" rate={rates.exponent_hylosolplus} onCalc={compute} calcLoading={calcLoading} />
               <APYCard title="Rate-X hyloSOL+" apy={rates.ratex_hylosolplus} label="Variable APY" icon={ICONS.hylosolplus} link="https://app.rate-x.io/points?symbol=hyloSOL%252B-2511" color="orange" calcLabel="Rate-X: hyloSOL+" rate={rates.ratex_hylosolplus} onCalc={compute} calcLoading={calcLoading} />
               <APYCard title="Rate-X PT-hyloSOL+" apy={rates.ratex_PT_hylosolplus} label="Fixed APY" icon={ICONS.hylosolplus} link="https://app.rate-x.io/points?symbol=hyloSOL%252B-2511" color="orange" calcLabel="Rate-X: PT-hyloSOL+" rate={rates.ratex_PT_hylosolplus} onCalc={compute} calcLoading={calcLoading} />
 
-              {/* hyloSOL — VIOLET */}
               <APYCard title="hyloSOL (10Dec25)" apy={rates.exponent_hylosol} label="PT-hyloSOL Fixed APY" icon={ICONS.hylosol} link="https://www.exponent.finance/liquidity/hylosol-10Dec25" color="violet" calcLabel="hyloSOL: PT" rate={rates.exponent_hylosol} onCalc={compute} calcLoading={calcLoading} />
               <APYCard title="Rate-X hyloSOL" apy={rates.ratex_hylosol} label="Variable APY" icon={ICONS.hylosol} link="https://app.rate-x.io/points?symbol=hyloSOL-2511" color="violet" calcLabel="Rate-X: hyloSOL" rate={rates.ratex_hylosol} onCalc={compute} calcLoading={calcLoading} />
               <APYCard title="Rate-X PT-hyloSOL" apy={rates.ratex_PT_hylosol} label="Fixed APY" icon={ICONS.hylosol} link="https://app.rate-x.io/points?symbol=hyloSOL-2511" color="violet" calcLabel="Rate-X: PT-hyloSOL" rate={rates.ratex_PT_hylosol} onCalc={compute} calcLoading={calcLoading} />
+
+              {/* === LOOPSCALE (новые карточки) === */}
+              <APYCard title="Loopscale hyUSD ONE" apy={rates.loopscale_hyusd_one} label="hyUSD ONE APY" icon={ICONS.hyusd} link="https://loopscale.com" color="green" calcLabel="Loopscale hyUSD ONE" rate={rates.loopscale_hyusd_one} onCalc={compute} calcLoading={calcLoading} />
+              <APYCard title="Loopscale xSOL ONE" apy={rates.loopscale_xsOL_one} label="xSOL ONE APY" icon={ICONS.xsol} link="https://loopscale.com" color="purple" calcLabel="Loopscale xSOL ONE" rate={rates.loopscale_xsOL_one} onCalc={compute} calcLoading={calcLoading} />
+              <APYCard title="Loopscale hyUSD 15dec25" apy={rates.loopscale_hyusd_15dec25} label="hyUSD 15dec25 APY" icon={ICONS.hyusd} link="https://loopscale.com" color="green" calcLabel="Loopscale hyUSD 15dec25" rate={rates.loopscale_hyusd_15dec25} onCalc={compute} calcLoading={calcLoading} />
+              <APYCard title="Loopscale sHYUSD 18nov25" apy={rates.loopscale_shYUSD_18nov25} label="sHYUSD 18nov25 APY" icon={ICONS.shyusd} link="https://loopscale.com" color="teal" calcLabel="Loopscale sHYUSD 18nov25" rate={rates.loopscale_shYUSD_18nov25} onCalc={compute} calcLoading={calcLoading} />
+              <APYCard title="Loopscale sHYUSD → hyUSD" apy={rates.loopscale_shYUSD_hyusd} label="sHYUSD → hyUSD APY" icon={ICONS.shyusd} link="https://loopscale.com" color="teal" calcLabel="Loopscale sHYUSD → hyUSD" rate={rates.loopscale_shYUSD_hyusd} onCalc={compute} calcLoading={calcLoading} />
+              <APYCard title="Loopscale sHYUSD 2601" apy={rates.loopscale_shYUSD_2601} label="sHYUSD 2601 APY" icon={ICONS.shyusd} link="https://loopscale.com" color="teal" calcLabel="Loopscale sHYUSD 2601" rate={rates.loopscale_shYUSD_2601} onCalc={compute} calcLoading={calcLoading} />
             </div>
           )}
 
@@ -295,7 +309,7 @@ export default function App() {
    ------------------------------------------------- */
 const APYCard = ({ title, apy, label, icon, link, color, calcLabel, rate, onCalc, calcLoading }) => {
   const isRateX = title.startsWith('Rate-X');
-  const viewText = isRateX ? 'Rate-X' : 'Exponent';
+  const viewText = isRateX ? 'Rate-X' : title.includes('Loopscale') ? 'Loopscale' : 'Exponent';
 
   const colorConfig = {
     purple: { bgGradient: 'linear-gradient(135deg, #a855f715, #9933cc10)', borderColor: '#a855f7', calcBtnBg: 'linear-gradient(45deg, #a855f7, #7e3bc7)', textColor: '#a855f7' },
